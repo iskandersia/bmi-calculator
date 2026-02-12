@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор ИМТ - Индекс массы тела</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="medical-icon">🏥</div>
+            <h1>Калькулятор ИМТ</h1>
+            <p class="subtitle">Определение индекса массы тела по ВОЗ</p>
+        </div>
+
+        <div class="calculator-box">
+            <div class="input-group">
+                <label for="weight">Вес (кг)</label>
+                <input type="number" id="weight" placeholder="Например: 70" min="1" step="0.1">
+                <span class="input-icon">⚖️</span>
+            </div>
+
+            <div class="input-group">
+                <label for="height">Рост (см)</label>
+                <input type="number" id="height" placeholder="Например: 175" min="1" step="0.1">
+                <span class="input-icon">📏</span>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateBMI()">
+                <span>Рассчитать ИМТ</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+
+        <div id="result-container" class="result-container hidden">
+            <div class="result-card">
+                <h2>Ваш результат</h2>
+                <div class="bmi-value" id="bmi-value">—</div>
+                <div class="bmi-category" id="bmi-category">—</div>
+                <div class="bmi-description" id="bmi-description">—</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>📋 Классификация ИМТ по ВОЗ</h3>
+            <div class="classification-grid">
+                <div class="classification-item underweight">
+                    <div class="class-range">&lt; 18,5</div>
+                    <div class="class-name">Недостаточный вес</div>
+                </div>
+                <div class="classification-item normal">
+                    <div class="class-range">18,5–24,9</div>
+                    <div class="class-name">Нормальный вес</div>
+                </div>
+                <div class="classification-item overweight">
+                    <div class="class-range">25,0–29,9</div>
+                    <div class="class-name">Избыточная масса</div>
+                </div>
+                <div class="classification-item obesity1">
+                    <div class="class-range">30,0–34,9</div>
+                    <div class="class-name">Ожирение I</div>
+                </div>
+                <div class="classification-item obesity2">
+                    <div class="class-range">35,0–39,9</div>
+                    <div class="class-name">Ожирение II</div>
+                </div>
+                <div class="classification-item obesity3">
+                    <div class="class-range">≥ 40</div>
+                    <div class="class-name">Ожирение III</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="formula-section">
+            <h3>🧮 Как рассчитывается ИМТ</h3>
+            <div class="formula">
+                ИМТ = вес (кг) / (рост (м))²
+            </div>
+            <p class="formula-note">Пример: 70 кг ÷ (1,75 м)² = 22,86</p>
+        </div>
+
+        <div class="disclaimer">
+            <h4>⚠️ Важные замечания</h4>
+            <p>ИМТ — это общий показатель, который не учитывает пол, возраст, мышечную массу и этническую принадлежность. Для более точной оценки состояния здоровья рекомендуется консультация врача.</p>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Калькулятор ИМТ | На основе рекомендаций ВОЗ</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
