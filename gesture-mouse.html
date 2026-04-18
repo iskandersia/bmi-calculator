@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Жестовое управление курсором</title>
+    <link rel="stylesheet" href="gesture-mouse.css">
+</head>
+<body>
+
+<!-- ── Start overlay ─────────────────────────────────────────────────── -->
+<div id="start-overlay">
+    <h1>🖐 Жестовое управление</h1>
+    <p>
+        Управляйте курсором с помощью жестов руки, используя только камеру.
+        Никаких дополнительных устройств не нужно.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:360px;text-align:left;margin:8px 0">
+        <div style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.25);border-radius:12px;padding:14px">
+            <div style="font-size:24px;margin-bottom:6px">☝️</div>
+            <div style="font-weight:600;font-size:14px">Один палец</div>
+            <div style="color:#888;font-size:12px">Перемещение курсора</div>
+        </div>
+        <div style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.25);border-radius:12px;padding:14px">
+            <div style="font-size:24px;margin-bottom:6px">🤏</div>
+            <div style="font-weight:600;font-size:14px">Щипок</div>
+            <div style="color:#888;font-size:12px">Левый клик</div>
+        </div>
+        <div style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.25);border-radius:12px;padding:14px">
+            <div style="font-size:24px;margin-bottom:6px">✌️</div>
+            <div style="font-weight:600;font-size:14px">Два пальца</div>
+            <div style="color:#888;font-size:12px">Прокрутка страницы</div>
+        </div>
+        <div style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.25);border-radius:12px;padding:14px">
+            <div style="font-size:24px;margin-bottom:6px">✋</div>
+            <div style="font-weight:600;font-size:14px">Открытая ладонь</div>
+            <div style="color:#888;font-size:12px">Пауза курсора</div>
+        </div>
+    </div>
+
+    <button id="start-btn">🎥 Включить камеру</button>
+    <span class="permission-note">Браузер запросит разрешение на доступ к камере</span>
+    <a href="index.html" style="color:#555;font-size:13px;text-decoration:none;">← Вернуться к калькулятору ИМТ</a>
+</div>
+
+<!-- ── Virtual cursor ─────────────────────────────────────────────────── -->
+<div id="virtual-cursor"></div>
+
+<!-- ── Status HUD ────────────────────────────────────────────────────── -->
+<div id="status-hud">
+    <h3>Статус</h3>
+    <div class="status-row">
+        <div class="status-dot" id="dot-camera"></div>
+        <span>Камера</span>
+    </div>
+    <div class="status-row">
+        <div class="status-dot" id="dot-hands"></div>
+        <span>Обнаружение руки</span>
+    </div>
+    <div id="gesture-label">—</div>
+</div>
+
+<!-- ── Webcam preview ─────────────────────────────────────────────────── -->
+<div id="webcam-container">
+    <canvas id="output-canvas" width="320" height="240"></canvas>
+    <span class="webcam-label">Камера</span>
+</div>
+
+<!-- ── Scrollable demo area ───────────────────────────────────────────── -->
+<div id="scroll-area">
+    <h3>Зона прокрутки ✌️</h3>
+    <p>
+        Наведите курсор на эту панель и используйте жест «два пальца» для прокрутки.
+        Здесь достаточно текста, чтобы прокрутка была заметна.
+        Продолжайте читать…
+        Жест «V» с указательным и средним пальцами — это ваш скролл.
+        Поднятый указательный выше среднего — вверх, ниже — вниз.
+    </p>
+</div>
+
+<!-- ── Main demo content ──────────────────────────────────────────────── -->
+<div id="content-area">
+    <div class="hero">
+        <h1>🖐 Жестовое управление</h1>
+        <p>Управляйте этими кнопками, не касаясь мыши</p>
+    </div>
+
+    <div class="demo-grid">
+        <div class="demo-btn" data-icon="🎵" data-msg="Музыка!">
+            <div class="demo-icon">🎵</div>
+            <div>Музыка</div>
+        </div>
+        <div class="demo-btn" data-icon="🎮" data-msg="Игра!">
+            <div class="demo-icon">🎮</div>
+            <div>Игры</div>
+        </div>
+        <div class="demo-btn" data-icon="📷" data-msg="Фото!">
+            <div class="demo-icon">📷</div>
+            <div>Фото</div>
+        </div>
+        <div class="demo-btn" data-icon="🌍" data-msg="Мир!">
+            <div class="demo-icon">🌍</div>
+            <div>Карты</div>
+        </div>
+        <div class="demo-btn" data-icon="📊" data-msg="Данные!">
+            <div class="demo-icon">📊</div>
+            <div>Статистика</div>
+        </div>
+        <div class="demo-btn" data-icon="⚙️" data-msg="Настройки!">
+            <div class="demo-icon">⚙️</div>
+            <div>Настройки</div>
+        </div>
+    </div>
+</div>
+
+<!-- MediaPipe CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="gesture-mouse.js"></script>
+</body>
+</html>
