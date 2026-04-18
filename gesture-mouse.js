@@ -29,7 +29,6 @@ let cursorX = window.innerWidth  / 2;
 let cursorY = window.innerHeight / 2;
 let lastClickTime = 0;
 let lastGesture   = '';
-let scrollDir     = 0;
 
 // ── DOM refs ─────────────────────────────────────────────────────────────────
 
@@ -202,9 +201,11 @@ function onResults(results) {
             const midTip = landmarks[TIP.MIDDLE];
             const dir    = idxTip.y < midTip.y ? -1 : 1;
             window.scrollBy({ top: dir * SCROLL_SPEED, behavior: 'auto' });
-            // Also scroll the element under cursor
+            // Also scroll the element under cursor if it has overflow
             const el = document.elementFromPoint(cursorX, cursorY);
-            if (el) el.scrollTop += dir * SCROLL_SPEED;
+            if (el && el.scrollHeight > el.clientHeight) {
+                el.scrollTop += dir * SCROLL_SPEED;
+            }
             break;
         }
 
